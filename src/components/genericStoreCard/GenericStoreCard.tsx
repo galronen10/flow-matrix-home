@@ -13,10 +13,6 @@ export const GenericStoreCard: React.FC<props> = ({
   itemDisplayConfig,
   onClick,
 }) => {
-  const displayLabel: string = itemDisplayConfig.labelProperties
-    .map((key) => item[key])
-    .join(' ');
-
   return (
     <div
       className="item-card clickable"
@@ -24,11 +20,14 @@ export const GenericStoreCard: React.FC<props> = ({
       tabIndex={0}
       role="button"
     >
-      <h2>{displayLabel}</h2>
+      <h2>{itemDisplayConfig.labelGenerator(item)}</h2>
 
-      {itemDisplayConfig.propertyDisplayList.map((propDisplay) => (
-        <p>{`${propDisplay.label}: ${item[propDisplay.key]}`}</p>
-      ))}
+      {itemDisplayConfig.propertyDisplayList.map((propDisplay) => {
+        const dataDisplay: string =
+          propDisplay.displayFormatter?.(item[propDisplay.key]) ??
+          item[propDisplay.key];
+        return <p>{`${propDisplay.label}: ${dataDisplay}`}</p>;
+      })}
 
       <span className="price-badge">${item.price.toLocaleString()}</span>
     </div>

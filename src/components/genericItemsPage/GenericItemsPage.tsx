@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
 import './GenericItemsPage.css';
-import type {
-  IGenericStoreItemConfig,
-  IGenericStoreItem,
-  IGenericItemDetailsConfig,
-} from '../../types';
+import type { IGenericStoreItemConfig, IGenericStoreItem } from '../../types';
 import { GenericStoreCard } from '../genericStoreCard';
 import { GenericDetailSidebar } from '../genericDetailsSideBar';
 
 interface props {
   items: IGenericStoreItem[];
   displayConfig: IGenericStoreItemConfig;
-  detailsConfig: IGenericItemDetailsConfig;
+  detailsConfig: IGenericStoreItemConfig;
   storeLabel: string;
 }
 export const GenericItemsPage: React.FC<props> = ({

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import './GenericDetailSidebar.css';
-import type { IGenericItemDetailsConfig, IGenericStoreItem } from '../../types';
+import type { IGenericStoreItem, IGenericStoreItemConfig } from '../../types';
 
 interface props {
   item: IGenericStoreItem;
-  detailsConfig: IGenericItemDetailsConfig;
+  detailsConfig: IGenericStoreItemConfig;
   onClose: () => void;
 }
 
@@ -25,8 +25,6 @@ export const GenericDetailSidebar: React.FC<props> = ({
     }, ANIMATION_DURATION);
   };
 
-  const label = detailsConfig.labelGenerator(item);
-
   return (
     <div
       className={`sidebar-overlay${closing ? ' closing' : ''}`}
@@ -39,17 +37,21 @@ export const GenericDetailSidebar: React.FC<props> = ({
         <button className="close-btn" onClick={handleClose}>
           &times;
         </button>
-        <h2>{label}</h2>
+        <h2>{detailsConfig.labelGenerator(item)}</h2>
         <div className="item-detail-info">
-          {detailsConfig.propertyDisplayList.map((propDisplay) => (
-            <p>
-              <strong>{propDisplay.label}:</strong> {item[propDisplay.key]}
-            </p>
-          ))}
+          {detailsConfig.propertyDisplayList.map((propDisplay) => {
+            const dataDisplay: string =
+              propDisplay.displayFormatter?.(item[propDisplay.key]) ??
+              item[propDisplay.key];
+
+            return (
+              <p>
+                <strong>{propDisplay.label}:</strong> {dataDisplay}
+              </p>
+            );
+          })}
         </div>
-        <p className="item-description">
-          {item[detailsConfig.descriptionProperty]}
-        </p>
+        <p className="item-description">{item.description}</p>
       </aside>
     </div>
   );
