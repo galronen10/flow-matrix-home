@@ -1,1 +1,1 @@
-export { GenericItemsList } from './GenericItemsPage';
+export { GenericItemsList } from './GenericItemsList';

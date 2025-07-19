@@ -11,13 +11,13 @@ interface props {
 
 export const ModFieldSelect: React.FC<props> = ({
   selectedOption: value,
-  modConfig: sortConfig,
+  modConfig,
   onChange,
   isFilter = false,
 }) => {
   const optionsArray = useMemo(
-    () => (sortConfig ? Object.keys(sortConfig) : []),
-    [sortConfig],
+    () => (modConfig ? Object.keys(modConfig) : []),
+    [modConfig],
   );
   const label = useMemo(() => `${isFilter ? 'Filter' : 'Sort'} by`, [isFilter]);
 
@@ -32,7 +32,7 @@ export const ModFieldSelect: React.FC<props> = ({
         <MenuItem value="">None</MenuItem>
         {optionsArray.map((optKey) => (
           <MenuItem key={optKey} value={optKey}>
-            {sortConfig[optKey].label}
+            {modConfig[optKey]?.label}
           </MenuItem>
         ))}
       </Select>

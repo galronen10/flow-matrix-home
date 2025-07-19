@@ -24,7 +24,7 @@ type IModifyConfig<T> = Partial<
     Extract<keyof T, string>,
     {
       label: string;
-      optionFunc?: (data: any) => number;
+      optionFunc?: (a: any, b?: any) => number;
     }
   >
 >;

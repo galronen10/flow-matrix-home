@@ -7,8 +7,13 @@ import type {
 export const carDisplayConfig: ICatalogStoreItemConfig<Car> = {
   labelGenerator: (car: Car) => `${car.manufacturer} ${car.model}`,
   propertyDisplayList: [{ label: 'Color', key: 'color' }],
-  filterConfig: {},
-  sortConfig: {},
+  filterConfig: { color: { label: 'color' } },
+  sortConfig: {
+    color: {
+      label: 'color',
+      optionFunc: (a: string, b: string) => a.localeCompare(b),
+    },
+  },
 };
 
 export const carDetailsConfig: IBasicItemDisplayConfig<Car> = {

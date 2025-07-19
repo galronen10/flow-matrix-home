@@ -1,27 +1,28 @@
 import React, { useState } from 'react';
 import './GenericDetailSidebar.css';
-import type { IGenericStoreItem, IGenericItemConfig } from '../../types';
-
-interface props {
-  item: IGenericStoreItem;
-  detailsConfig: IGenericItemConfig;
-  onClose: () => void;
-}
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../hooks';
+import {
+  selectSelectedItem,
+  selectDetailsConfig,
+  clearSelectedItem,
+} from '../../store/storeSlice';
 
 const ANIMATION_DURATION = 250; // ms
 
-export const GenericDetailSidebar: React.FC<props> = ({
-  item,
-  detailsConfig,
-  onClose,
-}) => {
+export const GenericDetailSidebar: React.FC = () => {
   const [closing, setClosing] = useState(false);
+  const selectedItem = useSelector(selectSelectedItem);
+  const detailsConfig = useSelector(selectDetailsConfig);
+  const dispatch = useAppDispatch();
+
+  if (selectedItem === null) return <></>;
 
   const handleClose = () => {
     setClosing(true);
     setTimeout(() => {
       setClosing(false);
-      onClose();
+      dispatch(clearSelectedItem());
     }, ANIMATION_DURATION);
   };
 
@@ -37,12 +38,12 @@ export const GenericDetailSidebar: React.FC<props> = ({
         <button className="close-btn" onClick={handleClose}>
           &times;
         </button>
-        <h2>{detailsConfig.labelGenerator(item)}</h2>
+        <h2>{detailsConfig.labelGenerator(selectedItem)}</h2>
         <div className="item-detail-info">
           {detailsConfig.propertyDisplayList.map((propDisplay) => {
             const dataDisplay: string =
-              propDisplay.displayFormatter?.(item[propDisplay.key]) ??
-              item[propDisplay.key];
+              propDisplay.displayFormatter?.(selectedItem[propDisplay.key]) ??
+              selectedItem[propDisplay.key];
 
             return (
               <p>
@@ -51,7 +52,7 @@ export const GenericDetailSidebar: React.FC<props> = ({
             );
           })}
         </div>
-        <p className="item-description">{item.description}</p>
+        <p className="item-description">{selectedItem.description}</p>
       </aside>
     </div>
   );

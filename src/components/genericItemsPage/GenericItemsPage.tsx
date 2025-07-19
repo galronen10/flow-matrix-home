@@ -1,44 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './GenericItemsPage.css';
-import type {
-  IGenericItemConfig,
-  IGenericStoreItem,
-  IGenericCatalogItemConfig,
-} from '../../types';
+
 import { GenericDetailSidebar } from '../genericDetailsSideBar';
 import { GenericItemsList } from '../genericItemsList';
+import { selectStoreLabel } from '../../store/storeSlice';
+import { useSelector } from 'react-redux';
 
-interface props {
-  items: IGenericStoreItem[];
-  displayConfig: IGenericCatalogItemConfig;
-  detailsConfig: IGenericItemConfig;
-  storeLabel: string;
-}
-export const GenericItemsPage: React.FC<props> = ({
-  displayConfig,
-  items,
-  storeLabel,
-  detailsConfig,
-}) => {
-  const [selectedItem, setSelectedItem] = useState<IGenericStoreItem | null>(
-    null,
-  );
+export const GenericItemsPage: React.FC = () => {
+  const storeLabel = useSelector(selectStoreLabel);
 
   return (
     <div className="App">
       <h1 className="storeLabel">{storeLabel}</h1>
-      <GenericItemsList
-        displayConfig={displayConfig}
-        items={items}
-        onClick={(item) => setSelectedItem(item)}
-      />
-      {selectedItem && (
-        <GenericDetailSidebar
-          item={selectedItem}
-          detailsConfig={detailsConfig}
-          onClose={() => setSelectedItem(null)}
-        />
-      )}
+      <GenericItemsList />
+
+      <GenericDetailSidebar />
     </div>
   );
 };
