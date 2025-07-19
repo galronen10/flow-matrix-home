@@ -12,12 +12,31 @@ interface IItemPropertyDisplay<T> {
   displayFormatter?: (data: any) => string;
 }
 
-export interface IItemDisplayConfig<T extends IGenericStoreItem> {
+export interface IBasicItemDisplayConfig<T extends IGenericStoreItem> {
   labelGenerator: (item: T) => string;
   propertyDisplayList: IItemPropertyDisplay<T>[];
 }
 
-export type IGenericStoreItemConfig = IItemDisplayConfig<any>;
+export type IGenericItemConfig = IBasicItemDisplayConfig<any>;
+
+type IModifyConfig<T> = Partial<
+  Record<
+    Extract<keyof T, string>,
+    {
+      label: string;
+      optionFunc?: (data: any) => number;
+    }
+  >
+>;
+
+export type IGenericModifyConfig = IModifyConfig<any>;
+export interface ICatalogStoreItemConfig<T extends IGenericStoreItem>
+  extends IBasicItemDisplayConfig<T> {
+  sortConfig: IModifyConfig<T>;
+  filterConfig: IModifyConfig<T>;
+}
+
+export type IGenericCatalogItemConfig = ICatalogStoreItemConfig<any>;
 
 export interface Car extends IBaseStoreItem {
   manufacturer: string;

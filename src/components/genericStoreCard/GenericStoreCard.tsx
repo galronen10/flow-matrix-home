@@ -1,10 +1,10 @@
 import React from 'react';
 import './GenericStoreCard.css';
-import type { IGenericStoreItemConfig, IGenericStoreItem } from '../../types';
+import type { IGenericItemConfig, IGenericStoreItem } from '../../types';
 
 interface props {
   item: IGenericStoreItem;
-  itemDisplayConfig: IGenericStoreItemConfig;
+  itemDisplayConfig: IGenericItemConfig;
   onClick?: () => void;
 }
 

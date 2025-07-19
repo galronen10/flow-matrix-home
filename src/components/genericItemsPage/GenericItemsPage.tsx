@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import './GenericItemsPage.css';
-import type { IGenericStoreItemConfig, IGenericStoreItem } from '../../types';
-import { GenericStoreCard } from '../genericStoreCard';
+import type {
+  IGenericItemConfig,
+  IGenericStoreItem,
+  IGenericCatalogItemConfig,
+} from '../../types';
 import { GenericDetailSidebar } from '../genericDetailsSideBar';
+import { GenericItemsList } from '../genericItemsList';
 
 interface props {
   items: IGenericStoreItem[];
-  displayConfig: IGenericStoreItemConfig;
-  detailsConfig: IGenericStoreItemConfig;
+  displayConfig: IGenericCatalogItemConfig;
+  detailsConfig: IGenericItemConfig;
   storeLabel: string;
 }
 export const GenericItemsPage: React.FC<props> = ({
@@ -23,16 +27,11 @@ export const GenericItemsPage: React.FC<props> = ({
   return (
     <div className="App">
       <h1 className="storeLabel">{storeLabel}</h1>
-      <div className="catalog">
-        {items.map((item, idx: number) => (
-          <GenericStoreCard
-            key={idx}
-            item={item}
-            onClick={() => setSelectedItem(item)}
-            itemDisplayConfig={displayConfig}
-          />
-        ))}
-      </div>
+      <GenericItemsList
+        displayConfig={displayConfig}
+        items={items}
+        onClick={(item) => setSelectedItem(item)}
+      />
       {selectedItem && (
         <GenericDetailSidebar
           item={selectedItem}

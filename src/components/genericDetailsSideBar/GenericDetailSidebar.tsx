@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import './GenericDetailSidebar.css';
-import type { IGenericStoreItem, IGenericStoreItemConfig } from '../../types';
+import type { IGenericStoreItem, IGenericItemConfig } from '../../types';
 
 interface props {
   item: IGenericStoreItem;
-  detailsConfig: IGenericStoreItemConfig;
+  detailsConfig: IGenericItemConfig;
   onClose: () => void;
 }
 

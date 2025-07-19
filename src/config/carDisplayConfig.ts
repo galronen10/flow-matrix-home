@@ -1,11 +1,17 @@
-import type { Car, IItemDisplayConfig } from '../types';
+import type {
+  Car,
+  IBasicItemDisplayConfig,
+  ICatalogStoreItemConfig,
+} from '../types';
 
-export const carDisplayConfig: IItemDisplayConfig<Car> = {
+export const carDisplayConfig: ICatalogStoreItemConfig<Car> = {
   labelGenerator: (car: Car) => `${car.manufacturer} ${car.model}`,
   propertyDisplayList: [{ label: 'Color', key: 'color' }],
+  filterConfig: {},
+  sortConfig: {},
 };
 
-export const carDetailsConfig: IItemDisplayConfig<Car> = {
+export const carDetailsConfig: IBasicItemDisplayConfig<Car> = {
   labelGenerator: (car: Car) =>
     `${car.manufacturer} ${car.model} (${car.year})`,
   propertyDisplayList: [
