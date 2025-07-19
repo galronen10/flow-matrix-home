@@ -36,7 +36,7 @@ export interface ICatalogStoreItemConfig<T extends IGenericStoreItem>
 
 export type IGenericCatalogItemConfig = ICatalogStoreItemConfig<any>;
 
-export const itemsPerPage = 10;
+export const itemsPerPage = 12;
 
 export interface Car extends IBaseStoreItem {
   manufacturer: string;

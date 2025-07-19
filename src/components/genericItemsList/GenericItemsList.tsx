@@ -5,8 +5,7 @@ import { Pagination } from '@mui/material';
 import { FilterSortBar } from '../filterSortBar';
 import { GenericStoreCard } from '../genericStoreCard';
 import { selectFilteredItems } from '../../store/CatalogSlice';
-
-const itemsPerPage = 10;
+import { itemsPerPage } from '../../types';
 
 export const GenericItemsList: React.FC = () => {
   const [selectedPage, setSelectedPage] = useState<number>(1);
