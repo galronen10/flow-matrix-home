@@ -29,11 +29,11 @@ export const GenericStoreCard: React.FC<props> = ({ item }) => {
     >
       <h2>{cardDisplayConfig.labelGenerator(item)}</h2>
 
-      {cardDisplayConfig.propertyDisplayList.map((propDisplay) => {
+      {cardDisplayConfig.propertyDisplayList.map((propDisplay, idx) => {
         const dataDisplay: string =
           propDisplay.displayFormatter?.(item[propDisplay.key]) ??
           item[propDisplay.key];
-        return <p>{`${propDisplay.label}: ${dataDisplay}`}</p>;
+        return <p key={idx}>{`${propDisplay.label}: ${dataDisplay}`}</p>;
       })}
 
       <span className="price-badge">${item.price.toLocaleString()}</span>

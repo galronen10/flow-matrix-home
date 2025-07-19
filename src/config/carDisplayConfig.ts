@@ -11,7 +11,7 @@ export const carDisplayConfig: ICatalogStoreItemConfig<Car> = {
   sortConfig: {
     color: {
       label: 'color',
-      optionFunc: (a: string, b: string) => a.localeCompare(b),
+      optionFunc: (a, b) => a.color.localeCompare(b.color),
     },
   },
 };

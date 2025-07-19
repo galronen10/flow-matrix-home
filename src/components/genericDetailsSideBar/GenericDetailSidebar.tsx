@@ -40,13 +40,13 @@ export const GenericDetailSidebar: React.FC = () => {
         </button>
         <h2>{detailsConfig.labelGenerator(selectedItem)}</h2>
         <div className="item-detail-info">
-          {detailsConfig.propertyDisplayList.map((propDisplay) => {
+          {detailsConfig.propertyDisplayList.map((propDisplay, idx) => {
             const dataDisplay: string =
               propDisplay.displayFormatter?.(selectedItem[propDisplay.key]) ??
               selectedItem[propDisplay.key];
 
             return (
-              <p>
+              <p key={idx}>
                 <strong>{propDisplay.label}:</strong> {dataDisplay}
               </p>
             );

@@ -1,31 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './GenericItemsList.css';
-import { GenericStoreCard } from '../genericStoreCard';
-import { FilterSortBar } from '../filterSortBar/FilterSortBar';
-import { Pagination } from '@mui/material';
-import { selectItems, selectPage, setPage } from '../../store/catalogSlice';
 import { useSelector } from 'react-redux';
-import { useAppDispatch } from '../../hooks';
+import { Pagination } from '@mui/material';
+import { FilterSortBar } from '../filterSortBar';
+import { GenericStoreCard } from '../genericStoreCard';
+import { selectFilteredItems } from '../../store/CatalogSlice';
 
 const itemsPerPage = 10;
 
 export const GenericItemsList: React.FC = () => {
-  const items = useSelector(selectItems);
-  const selectedPage = useSelector(selectPage);
-  const dispatch = useAppDispatch();
+  const [selectedPage, setSelectedPage] = useState<number>(1);
+
+  const items = useSelector(selectFilteredItems);
 
   const pageCount = Math.ceil(items.length / itemsPerPage);
 
+  useEffect(() => {
+    setSelectedPage(1);
+  }, [items]);
   const selectPageNum = (_: unknown, page: number) => {
-    dispatch(setPage(page));
+    setSelectedPage(page);
+  };
+
+  const itemsForPage = () => {
+    const start = (selectedPage - 1) * itemsPerPage;
+
+    return items.slice(start, start + itemsPerPage);
   };
 
   return (
     <>
-      {' '}
       <FilterSortBar />
       <div className="catalog">
-        {items.map((item, idx: number) => (
+        {itemsForPage().map((item, idx: number) => (
           <GenericStoreCard key={idx} item={item} />
         ))}
       </div>

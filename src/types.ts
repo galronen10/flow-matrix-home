@@ -19,24 +19,24 @@ export interface IBasicItemDisplayConfig<T extends IGenericStoreItem> {
 
 export type IGenericItemConfig = IBasicItemDisplayConfig<any>;
 
-type IModifyConfig<T> = Partial<
-  Record<
-    Extract<keyof T, string>,
-    {
-      label: string;
-      optionFunc?: (a: any, b?: any) => number;
-    }
-  >
->;
-
-export type IGenericModifyConfig = IModifyConfig<any>;
+export type IGenericModifyConfig = Record<string, { label: string }>;
 export interface ICatalogStoreItemConfig<T extends IGenericStoreItem>
   extends IBasicItemDisplayConfig<T> {
-  sortConfig: IModifyConfig<T>;
-  filterConfig: IModifyConfig<T>;
+  sortConfig: Partial<
+    Record<
+      Extract<keyof T, string>,
+      {
+        label: string;
+        optionFunc: (a: T, b: T) => number;
+      }
+    >
+  >;
+  filterConfig: Partial<Record<Extract<keyof T, string>, { label: string }>>;
 }
 
 export type IGenericCatalogItemConfig = ICatalogStoreItemConfig<any>;
+
+export const itemsPerPage = 10;
 
 export interface Car extends IBaseStoreItem {
   manufacturer: string;

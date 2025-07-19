@@ -3,8 +3,9 @@ import {
   createSlice,
   type PayloadAction,
 } from '@reduxjs/toolkit';
-import type { IGenericStoreItem } from '../types';
+import { type IGenericStoreItem } from '../types';
 import type { RootState } from './index';
+import { selectSortConfig } from './storeSlice';
 
 type CatalogState = {
   items: IGenericStoreItem[];
@@ -32,18 +33,12 @@ export const catalogSlice = createSlice({
     },
     setSortField: (state, action: PayloadAction<string>) => {
       state.sortField = action.payload;
-      state.page = 1;
     },
     setFilterField: (state, action: PayloadAction<string>) => {
       state.filter = { ...state.filter, field: action.payload };
-      state.page = 1;
     },
     setFilterValue: (state, action: PayloadAction<string>) => {
       state.filter = { ...state.filter, value: action.payload };
-      state.page = 1;
-    },
-    setPage: (state, action: PayloadAction<number>) => {
-      state.page = action.payload;
     },
     clearFilters: (state) => ({ ...initialState, items: state.items }),
   },
@@ -53,7 +48,6 @@ export const {
   clearFilters,
   setFilterField,
   setFilterValue,
-  setPage,
   setSortField,
   setItems,
 } = catalogSlice.actions;
@@ -70,25 +64,26 @@ export const selectSortField = createSelector(
   (catalog) => catalog.sortField,
 );
 
-export const selectPage = createSelector(
-  [selectCatalogState],
-  (catalog) => catalog.page,
-);
-
 export const selectFilter = createSelector(
   [selectCatalogState],
   (catalog) => catalog.filter,
 );
 
 export const selectFilteredItems = createSelector(
-  [selectItems, selectFilter],
-  (items, filter) => {
-    if (!filter.value) return items;
-    return items.filter((item) =>
-      String(item[filter.field as keyof IGenericStoreItem])
-        .toLowerCase()
-        .includes(filter.value.toLowerCase()),
-    );
+  [selectItems, selectFilter, selectSortField, selectSortConfig],
+  (items, filter, sortField, sortConfig) => {
+    const itemForDisplay =
+      filter.value && filter.field
+        ? items.filter((item) =>
+            item[filter.field]
+              .toLowerCase()
+              .includes(filter.value.toLowerCase()),
+          )
+        : [...items];
+
+    if (sortField) itemForDisplay.sort(sortConfig[sortField]!.optionFunc);
+
+    return itemForDisplay;
   },
 );
 
