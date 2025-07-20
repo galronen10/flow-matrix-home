@@ -46,3 +46,20 @@ export interface Car extends IBaseStoreItem {
   engine: string;
   horsepower: number;
 }
+
+export interface Laptop extends IBaseStoreItem {
+  brand: string;
+  model: string;
+  processor: string;
+  ram: string;
+  storage: string;
+  screenSize: number;
+}
+
+export interface Book extends IBaseStoreItem {
+  title: string;
+  author: string;
+  genre: string;
+  yearPublished: number;
+  pageCount: number;
+}

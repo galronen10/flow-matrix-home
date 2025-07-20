@@ -2,7 +2,7 @@ import type {
   Car,
   IBasicItemDisplayConfig,
   ICatalogStoreItemConfig,
-} from '../types';
+} from '../../types';
 
 export const carDisplayConfig: ICatalogStoreItemConfig<Car> = {
   labelGenerator: (car: Car) => `${car.manufacturer} ${car.model}`,

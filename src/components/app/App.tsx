@@ -1,26 +1,31 @@
 import React, { useEffect } from 'react';
 import { GenericItemsPage } from '../genericItemsPage';
-import {
-  carDisplayConfig,
-  carDetailsConfig,
-} from '../../config/carDisplayConfig';
-import cars from '../../config/cars';
 import { useAppDispatch } from '../../hooks';
 import { setStoreData } from '../../store/storeSlice';
-import { setItems } from '../../store/catalogSlice';
+import { setItems } from '../../store/CatalogSlice';
+import { StoreToggle } from '../storeToggle';
+import { storeConfigMap } from '../../config/configMap';
 
 export const App: React.FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    const { detailsConfig, displayConfig, items, storeLabel } =
+      storeConfigMap.cars;
     dispatch(
       setStoreData({
-        detailsConfig: carDetailsConfig,
-        displayConfig: carDisplayConfig,
-        storeLabel: 'Car Store Catalog',
+        detailsConfig,
+        displayConfig,
+        storeLabel,
       }),
     );
-    dispatch(setItems(cars));
+    dispatch(setItems(items));
   }, []);
-  return <GenericItemsPage />;
+
+  return (
+    <>
+      <StoreToggle />
+      <GenericItemsPage />;
+    </>
+  );
 };
