@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import './GenericItemsList.css';
 import { useSelector } from 'react-redux';
-import { Pagination } from '@mui/material';
+import { Box, CircularProgress, Pagination } from '@mui/material';
 import { FilterSortBar } from '../filterSortBar';
 import { GenericStoreCard } from '../genericStoreCard';
 import { selectFilteredItems } from '../../store/CatalogSlice';
 import { itemsPerPage } from '../../types';
+import { selectIsLoading } from '../../store/storeSlice';
 
 export const GenericItemsList: React.FC = () => {
   const [selectedPage, setSelectedPage] = useState<number>(1);
-
+  const isLoading = useSelector(selectIsLoading);
   const items = useSelector(selectFilteredItems);
 
   const pageCount = Math.ceil(items.length / itemsPerPage);
@@ -27,7 +28,18 @@ export const GenericItemsList: React.FC = () => {
     return items.slice(start, start + itemsPerPage);
   };
 
-  return (
+  return isLoading ? (
+    <Box
+      sx={{
+        height: '70vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <CircularProgress size={48} />
+    </Box>
+  ) : (
     <>
       <FilterSortBar />
       <div className="catalog">

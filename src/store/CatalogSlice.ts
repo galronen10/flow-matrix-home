@@ -28,9 +28,10 @@ export const catalogSlice = createSlice({
   name: 'catalog',
   initialState,
   reducers: {
-    setItems: (state, action: PayloadAction<IGenericStoreItem[]>) => {
-      state.items = action.payload;
-    },
+    setItems: (_, action: PayloadAction<IGenericStoreItem[]>) => ({
+      ...initialState,
+      items: action.payload,
+    }),
     setSortField: (state, action: PayloadAction<string>) => {
       state.sortField = action.payload;
     },

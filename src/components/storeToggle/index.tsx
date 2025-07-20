@@ -2,7 +2,7 @@ import { ToggleButton, ToggleButtonGroup, Box } from '@mui/material';
 import { useAppDispatch } from '../../hooks';
 import { useState } from 'react';
 import { configStoreList, storeConfigMap } from '../../config/configMap';
-import { setStoreData } from '../../store/storeSlice';
+import { setStoreData, stopLoading } from '../../store/storeSlice';
 import { setItems } from '../../store/CatalogSlice';
 
 export const StoreToggle: React.FC = () => {
@@ -16,6 +16,7 @@ export const StoreToggle: React.FC = () => {
     if (newValue !== null) {
       const { detailsConfig, displayConfig, items, storeLabel } =
         storeConfigMap[newValue];
+
       dispatch(
         setStoreData({
           detailsConfig,
@@ -25,6 +26,7 @@ export const StoreToggle: React.FC = () => {
       );
       dispatch(setItems(items));
       setSelectedStore(newValue);
+      dispatch(stopLoading());
     }
   };
 

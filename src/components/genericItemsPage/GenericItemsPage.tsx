@@ -13,7 +13,6 @@ export const GenericItemsPage: React.FC = () => {
     <div className="App">
       <h1 className="storeLabel">{storeLabel}</h1>
       <GenericItemsList />
-
       <GenericDetailSidebar />
     </div>
   );

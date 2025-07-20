@@ -15,6 +15,7 @@ type StoreState = {
   detailsConfig: IGenericItemConfig;
   storeLabel: string;
   selectedItem: IGenericStoreItem | null;
+  isLoading: boolean;
 };
 
 const defaultLabelGenerator = () => '';
@@ -31,6 +32,7 @@ const initialState: StoreState = {
   },
   selectedItem: null,
   storeLabel: '',
+  isLoading: true,
 };
 
 export const storeSlice = createSlice({
@@ -39,18 +41,23 @@ export const storeSlice = createSlice({
   reducers: {
     setStoreData: (
       _,
-      action: PayloadAction<Omit<StoreState, 'selectedItem'>>,
-    ) => ({ ...action.payload, selectedItem: null }),
+      action: PayloadAction<
+        Pick<StoreState, 'detailsConfig' | 'displayConfig' | 'storeLabel'>
+      >,
+    ) => ({ ...initialState, ...action.payload }),
     setSelectedItem: (state, action: PayloadAction<IGenericStoreItem>) => {
       state.selectedItem = action.payload;
     },
     clearSelectedItem: (state) => {
       state.selectedItem = null;
     },
+    stopLoading: (state) => {
+      state.isLoading = false;
+    },
   },
 });
 
-export const { clearSelectedItem, setSelectedItem, setStoreData } =
+export const { clearSelectedItem, setSelectedItem, setStoreData, stopLoading } =
   storeSlice.actions;
 
 // Root selector
@@ -60,6 +67,12 @@ const selectStore = (state: RootState) => state.store;
 export const selectSelectedItem = createSelector(
   [selectStore],
   (store) => store.selectedItem,
+);
+
+// 👉 selectedItem
+export const selectIsLoading = createSelector(
+  [selectStore],
+  (store) => store.isLoading,
 );
 
 // 👉 storeLabel
